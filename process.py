@@ -9,7 +9,7 @@ import typing
 from datetime import datetime
 from io import BytesIO
 
-import cups as cups
+import cups
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from PyPDF2.generic import RectangleObject
 from reportlab.lib import colors, pagesizes, units
@@ -38,9 +38,9 @@ def main():
     input_filename = sys.argv[1]  # path to pdf file
     user_exec = sys.argv[2]  # user to which CUPS-PDF attached the print job
     user_passed = sys.argv[3]  # user name which was passed with the print job
-    logging.info(f"Filename: {input_filename}")
-    logging.info(f"user_exec: {user_exec}")
-    logging.info(f"user_passed: {user_passed}")
+    logging.info(f"Filename: %s", input_filename)
+    logging.info(f"user_exec: %s", user_exec)
+    logging.info(f"user_passed: %s", user_passed)
 
     output_filename = os.path.join(OUTPUT_DIR,
                                    os.path.basename(input_filename))
@@ -105,12 +105,12 @@ def hardcopy(filename: str):
     if not PRINTER_NAME:
         return
     conn = cups.Connection()
-    logging.info(f"Passing {filename} to printer for hardcopy")
+    logging.info("Passing %s to printer for hardcopy", filename)
     conn.printFile(PRINTER_NAME, filename, f"Timestamped {filename}",
                    options={})
 
 
-def delete_file(filename: str)
+def delete_file(filename: str):
     if DELETE_INPUT_FILE:
         logging.info("deleting input file")
         os.remove(filename)
