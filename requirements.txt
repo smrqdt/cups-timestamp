@@ -1,0 +1,4 @@
+Pillow==7.0.0
+pycups==1.9.74
+PyPDF2==1.26.0
+reportlab==3.5.34
