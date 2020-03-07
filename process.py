@@ -19,14 +19,15 @@ logging.basicConfig(filename="process.log", level=logging.INFO)
 locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
 
 # output directory to place timestamped PDF in
-OUTPUT_DIR = "/opt/ecodms/workdir/scaninput/printinput"
+# OUTPUT_DIR = "/opt/ecodms/workdir/scaninput/printinput"
+OUTPUT_DIR = "/tmp"
 
 # pass timestamped PDF to the following printer
 # printing will be skipped if PRINTER_NAME is empty
-PRINTER_NAME = "PDF_tmpfs"
+PRINTER_NAME = "PDF"
 
 # delete original file aber stamping?
-DELETE_INPUT_FILE = True
+DELETE_INPUT_FILE = False
 
 # set file mode (permissions) for created file
 # default is read and write permissions for all users
@@ -48,7 +49,7 @@ def main():
     with open(input_filename, "rb") as input_pdf:
         with open(output_filename, "wb") as output_pdf:
             add_stamp(input_pdf, output_pdf, user_passed)
-            hardcopy(output_filename)
+    hardcopy(output_filename)
 
     delete_file(input_filename)
 
