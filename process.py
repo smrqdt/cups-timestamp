@@ -8,14 +8,14 @@ import sys
 import typing
 from datetime import datetime
 from io import BytesIO
+import subprocess
 
-import cups
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from PyPDF2.generic import RectangleObject
 from reportlab.lib import colors, pagesizes, units
 from reportlab.pdfgen import canvas
 
-logging.basicConfig(filename="process.log", level=logging.INFO)
+logging.basicConfig(filename="/tmp/cups-timestamp.log", level=logging.INFO)
 locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
 
 # output directory to place timestamped PDF in
@@ -105,10 +105,10 @@ def hardcopy(filename: str):
     to skip this set PRINTER_NAME to an False/empty string"""
     if not PRINTER_NAME:
         return
-    conn = cups.Connection()
     logging.info("Passing %s to printer for hardcopy", filename)
-    conn.printFile(PRINTER_NAME, filename, f"Timestamped {filename}",
-                   options={})
+    sp = subprocess.run(("lp", "-d", PRINTER_NAME, filename), check=True,
+                        text=True, stderr=subprocess.STDOUT)
+    logging.info(sp.stdout)
 
 
 def delete_file(filename: str):
